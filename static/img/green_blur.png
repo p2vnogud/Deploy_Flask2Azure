@@ -1,0 +1,15 @@
+--2024-03-19 11:05:37--  https://sheeptester.github.io/longer-tweets/images/blur.png
+Resolving sheeptester.github.io (sheeptester.github.io)... 185.199.110.153, 185.199.108.153, 185.199.111.153, ...
+Connecting to sheeptester.github.io (sheeptester.github.io)|185.199.110.153|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 248273 (242K) [image/png]
+Saving to: ‘blur.png’
+
+     0K .......... .......... .......... .......... .......... 20%  255K 1s
+    50K .......... .......... .......... .......... .......... 41%  307K 1s
+   100K .......... .......... .......... .......... .......... 61%  738K 0s
+   150K .......... .......... .......... .......... .......... 82%  428K 0s
+   200K .......... .......... .......... .......... ..        100%  509K=0.6s
+
+2024-03-19 11:05:38 (387 KB/s) - ‘blur.png’ saved [248273/248273]
+

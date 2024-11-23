@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - OpenU</title>
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/responsive/tablet.css">
+    <link rel="stylesheet" href="../static/css/responsive-mobile.css">
+</head>
+
+<body style="overflow-x: hidden">
+    <div class="set-page-container">
+        <header class="setting-header">
+            <span class="setting-banner">Settings</span>
+            <div class="donate"><i class="fa-solid fa-list-check"></i> Donate</div>
+            <div class="mobile-nav-setting none">
+                <ul class="nav-setting-container">
+                    <li class="general">General</li>
+                    <li class="notes">Notes</li>
+                    <li class="set-notifications">Notifications</li>
+                </ul>
+            </div>
+            <div class="back-btn-setting">
+                <a href="/home"><i class="fas fa-home"></i></a>
+            </div>
+        </header>
+        <main class="setting-body">
+            <section class="nav-setting">
+                <div class="nav-setting-container">
+                    <div class="general">General</div>
+                    <div class="notes">Notes</div>
+                    <div class="set-notifications">Notifications</div>
+                </div>
+            </section>
+            <section class="setting-container">
+                <div class="setting-mode">General</div>
+                <form action="/settings" method="post" enctype="multipart/form-data">
+                    <div class="setting-area">
+                        <div class="set-area-left">
+                            <div class="setting-name">
+                                <label for="inputname">Name</label>
+                                <input type="text" name="name" minlength="1" maxlength="80" id="inputname"
+                                    placeholder="Your full name" value="{{ name }}">
+                            </div>
+                            <!--  username -->
+                            <div class="username-input">
+                                <label for="inputusername">Username</label>
+                                <input type="text" name="username" id="inputusername" minlength="1" maxlength="80"
+                                    placeholder="Your username" pattern="^(?!-)[a-zA-Z0-9-]+$" value="{{ username }}">
+                                <span class="rule-input">Allow a-Z, 0-9 and dash not at beginning.</span>
+                            </div>
+                            <!-- email -->
+                            <div>
+                                <label for="inputemail">Email</label>
+                                <input type="email" name="email" id="inputemail" minlength="1" maxlength="80"
+                                    placeholder="Your email" value="{{ email }}">
+                            </div>
+                            <!-- password -->
+                            <div>
+                                <label for="inputpassword">Password</label>
+                                <input type="password" name="password" minlength="1" maxlength="80" id="inputpassword"
+                                    placeholder="*********">
+                            </div>
+                            <div>
+                                <label for="inputBio">Bio</label>
+                                <textarea class="bio-area" rows="5" maxlength="160" placeholder="Tell about yourself..."
+                                    name="bio" id="inputBio"></textarea>
+                            </div>
+                        </div>
+                        <div class="set-area-right hidden-element">
+                            <div class="setting-ava"></div>
+                            <label class="choose-photo">
+                                <span>Choose photo</span>
+                                <input type="file" accept="image/*" name="file" id="inputavatar">
+                            </label>
+                            <div class="reset-pass"><span>Reset password</span></div>
+                            <i class="fa fa-close item-close-set"></i>
+                        </div>
+                    </div>
+                    <button class="btn-edit-setting none">Edit</button>
+                    <button class="save-change hidden-element" type="submit">Save Changes</button>
+                </form>
+            </section>
+        </main>
+    </div>
+    {% if profile_pic %}
+    <style>
+        .setting-ava {
+            background-image: url("{{ url_for('static', filename=profile_pic) }}");
+        }
+    </style>
+    {% endif %}
+    <script src="https://kit.fontawesome.com/c9f23d41c7.js" crossorigin="anonymous"></script>
+    <script>
+        var editSet = document.querySelector(".btn-edit-setting");
+        var btnSave = document.querySelector(".save-change");
+        var setAreaRight = document.querySelector(".set-area-right");
+        var itemClose = document.querySelector(".item-close-set");
+
+        editSet.addEventListener("click", function (event) {
+
+            event.preventDefault();
+
+            if (btnSave.classList.contains("hidden-element")) {
+                btnSave.classList.remove("hidden-element");
+            }
+
+            if (setAreaRight.classList.contains("hidden-element")) {
+                setAreaRight.classList.remove("hidden-element");
+            }
+        })
+
+        itemClose.addEventListener("click", function () {
+            if (!btnSave.classList.contains("hidden-element")) {
+                btnSave.classList.add("hidden-element");
+            }
+
+            if (!setAreaRight.classList.contains("hidden-element")) {
+                setAreaRight.classList.add("hidden-element");
+            }
+        })
+    </script>
+</body>
+
+</html>

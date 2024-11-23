@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <link rel="stylesheet" href="../static/css/style.css" />
+  <link rel="stylesheet" href="../static/css/reset.css" />
+  <link rel="stylesheet" href="../static/responsive/tablet.css" />
+  <link rel="stylesheet" href="../static/css/responsive-mobile.css" />
+</head>
+
+<body>
+  <div class="pro-container">
+    <div class="mobile-back-btn none">
+      <a href="{{ url_for('home')}}"><i class="fas fa-home"></i></a>
+    </div>
+    <div class="pro-sidebar">
+      <div class="info-user">
+        <div class="logo"></div>
+        <div class="user-avatar"></div>
+        <div class="info-user-details">
+          <span class="user-name">{{username}}</span>
+          <span class="mobile-time-joined none">Joined on Mar 12, 2024</span>
+        </div>
+      </div>
+      <div class="edit-profile">
+        <a href="{{ url_for('settings')}}">Edit info</a>
+      </div>
+      <span class="time-joined">Joined on Mar 12, 2024</span>
+    </div>
+    <div class="post-container">
+      <div class="nav-post">
+        <div class="nav-item">
+          <i class="fa-solid fa-lock"></i>
+          <a href="#" onclick="showAllNotes()" title="All notes" class="nav_edit"><i
+              class="fas fa-edit button-profile"></i>All notes</a>
+          <span class="tab-count inside">{{blog_count}}</span>
+        </div>
+        <div class="nav-item">
+          <a href="#published" onclick="showPublishedNotes()" title="Published notes" class="nav_edit publish_notes"><i
+              class="fas fa-edit button-profile"></i>Published notes</a>
+        </div>
+
+
+        <div class="nav-item">
+          <a href="#liked" onclick="showLikedNotes()" title="Published notes" class="nav_edit publish_notes"><i
+              class="fas fa-edit button-profile"></i>Liked notes</a>
+        </div>
+        <div class="back-btn">
+          <a href="{{ url_for('home')}}">Back to home</a>
+        </div>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const navItems = document.querySelectorAll('.nav-post .nav-item');
+
+          navItems.forEach(item => {
+            item.addEventListener('click', () => {
+              // Remove the 'active' class from all nav-items
+              navItems.forEach(nav => nav.classList.remove('active'));
+
+              // Add the 'active' class to the clicked nav-item
+              item.classList.add('active');
+            });
+          });
+        });
+      </script>
+      <!-- Filter -->
+      <div class="post-filter">
+        <div class="tags filter-item">
+          <i class="fa-solid fa-tag"></i> Tag
+          <i class="fa-solid fa-angle-down"></i>
+        </div>
+        <div class="search-post filter-item">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i><input type="text" class="search-notes-profile"
+            placeholder="Search notes..." />
+        </div>
+        <div class="n2o-filter filter-item">
+          New to old <i class="fa-solid fa-angle-down"></i>
+        </div>
+      </div>
+
+      <!-- User's post -->
+      <div id="userPostsContainer">
+        <div class="pro-post-items lmao" id="userPosts">
+          <!-- Item1 -->
+          {% for post in blog_info %}
+          <div class="pro-post-item">
+            <div class="item-header">
+              <span><a href="/blog/{{ post.title }}" class="title_of_blog">{{ post.title }}</a><i
+                  class="fa-solid fa-lock"></i></span>
+              <span>
+                <form action="/delete_blog" method="post"
+                  onsubmit="return confirm('Are you sure you want to delete this blog?');">
+                  <input type="hidden" name="blog_id" value="{{ post.id }}">
+                  <button type="submit" class="del_blog">Delete</button>
+                </form>
+              </span>
+            </div>
+            <!-- Checkbox for Published -->
+            <div class="published-checkbox">
+              <label for="published{{ post.id }}">Published</label>
+              <input type="checkbox" id="published{{ post.id }}" name="published"
+                onchange="updatePublished('{{ post.id }}')" {% if post.publish==1 %} checked {% endif %}>
+            </div>
+            <div class="item-content">
+              {{ post.content | safe }}
+            </div>
+            <!-- End of Checkbox for Published -->
+            <div class="item-desc">
+              <div class="user-avatar post-ava"></div>
+              <span class="item-user-name">{{ post.authorname }}</span>
+              <span class="view-mode"><i class="fa-solid fa-eye"></i> VIEW MODE</span>
+              <span class="like-mode"><i class="fa-regular fa-heart"></i> LIKE</span>
+              <span class="bookmark"><i class="fa-regular fa-bookmark"></i> BOOKMARK</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Published notes only -->
+      <div id="publishedNotesContainer" class="none">
+        <div class="pro-post-published-items" id="lmao">
+          <!-- Item1 -->
+          {% for pb in published_blogs %}
+          <div class="pro-post-published-item">
+            <div class="item-header">
+              <span>{{pb.title}}<i class="fa-solid fa-lock"></i></span>
+
+              <span>
+
+                <i class="fa-solid fa-pencil"></i>
+              </span>
+            </div>
+            <div class="item-desc">
+              <div class="user-avatar post-ava"></div>
+              <span class="item-user-name">{{pb.authorname}}</span>
+              <span class="view-mode"><i class="fa-solid fa-eye"></i> VIEW MODE</span>
+              <span class="like-mode"><i class="fa-regular fa-heart"></i> LIKE</span>
+              <span class="bookmark"><i class="fa-regular fa-bookmark"></i> BOOKMARK</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Liked notes only -->
+      <div id="likedNotesContainer" class="none">
+        <div class="pro-post-published-items" id="lmao">
+          <!-- Item1 -->
+          {% for lb in liked_blogs %}
+          <div class="pro-post-published-item">
+            <div class="item-header">
+              <span>{{lb.title}}<i class="fa-solid fa-lock"></i></span>
+
+              <span>
+
+                <i class="fa-solid fa-pencil"></i>
+              </span>
+            </div>
+            <div class="item-desc">
+              <div class="user-avatar post-ava"></div>
+              <span class="item-user-name">{{lb.authorname}}</span>
+              <span class="view-mode"><i class="fa-solid fa-eye"></i> VIEW MODE</span>
+              <span class="like-mode"><i class="fa-regular fa-heart"></i> LIKE</span>
+              <span class="bookmark"><i class="fa-regular fa-bookmark"></i> BOOKMARK</span>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if profile_pic %}
+  <style>
+    .user-avatar {
+      background-image: url("{{ url_for('static', filename='img/avatar.png') }}");
+    }
+
+    .title_of_blog {
+      color: aliceblue;
+      font-size: 30px !important;
+    }
+  </style>
+  {% endif %}
+
+  <script src="../static/js/index.js"></script>
+  <script src="../static/js/responsive-mobile.js"></script>
+  <script src="https://kit.fontawesome.com/c9f23d41c7.js" crossorigin="anonymous"></script>
+
+  <script>
+
+    var list_publish_blog = [
+      {% for item in published_blogs %}
+    {
+      "title": { { item[1] | tojson } },
+      "authorname": { { item[2] | tojson } }
+    } {% if not loop.last %}, {% endif %}
+    {% endfor %}
+      ];
+    function showPublishedNotes() {
+      var userPostsContainer = document.getElementById('userPostsContainer');
+      var publishedNotesContainer = document.getElementById('publishedNotesContainer');
+      var likedPostsContainer = document.getElementById('likedNotesContainer');
+
+      userPostsContainer.classList.add('none');
+      publishedNotesContainer.classList.remove('none');
+      likedPostsContainer.classList.add('none');
+
+    }
+
+    function showLikedNotes() {
+      var userPostsContainer = document.getElementById('userPostsContainer');
+      var publishedNotesContainer = document.getElementById('publishedNotesContainer');
+      var likedNotesContainer = document.getElementById('likedNotesContainer')
+
+      userPostsContainer.classList.add('none');
+      publishedNotesContainer.classList.add('none');
+      likedNotesContainer.classList.remove('none');
+    }
+
+
+
+    function showAllNotes() {
+      var userPostsContainer = document.getElementById('userPostsContainer');
+      var publishedNotesContainer = document.getElementById('publishedNotesContainer');
+      var likedNotesContainer = document.getElementById('likedNotesContainer');
+
+      userPostsContainer.classList.remove('none');
+      publishedNotesContainer.classList.add('none');
+      likedNotesContainer.classList.add('none');
+    }
+
+
+    function updatePublished(blogID) {
+      // Get the checkbox element based on the blog ID
+      var checkbox = document.getElementById("published" + blogID);
+      idcheckbox = "published" + blogID
+      item = document.querySelector('.pro-post-item #' + idcheckbox)
+      span = item.parentElement.parentElement.querySelector('.item-header').querySelector('span')
+      text = span.innerText
+      var isChecked = checkbox.checked;
+
+      var userPostsContainer = document.getElementById('userPostsContainer');
+      var publishedNotesContainer = document.getElementById('publishedNotesContainer');
+      const proPostPublishedItem = document.createElement('div');
+
+      if (isChecked) {
+        proPostPublishedItem.className = 'pro-post-published-item';
+
+        // Tạo phần tử header
+        const itemHeader = document.createElement('div');
+        itemHeader.className = 'item-header';
+
+        // Tạo và thêm nội dung vào phần tử header
+        const headerContent = document.createElement('span');
+        headerContent.textContent = text;
+        const lockIcon = document.createElement('i');
+        lockIcon.className = 'fa-solid fa-lock';
+        lockIcon.setAttribute('aria-hidden', 'true');
+        headerContent.appendChild(lockIcon);
+        const pencilIcon = document.createElement('i');
+        pencilIcon.className = 'fa-solid fa-pencil';
+        pencilIcon.setAttribute('aria-hidden', 'true');
+        headerContent.appendChild(pencilIcon);
+
+        itemHeader.appendChild(headerContent);
+
+        // Tạo phần tử mô tả
+        const itemDesc = document.createElement('div');
+        itemDesc.className = 'item-desc';
+
+        // Tạo và thêm nội dung vào phần tử mô tả
+        const userAvatar = document.createElement('div');
+        userAvatar.className = 'user-avatar post-ava';
+        const itemUserName = document.createElement('span');
+        itemUserName.className = 'item-user-name';
+        itemUserName.textContent = '{{username}}';
+        const viewMode = document.createElement('span');
+        viewMode.className = 'view-mode';
+        viewMode.innerHTML = '<i class="fa-solid fa-eye" aria-hidden="true"></i> VIEW MODE';
+        const likeMode = document.createElement('span');
+        likeMode.className = 'like-mode';
+        likeMode.innerHTML = '<i class="fa-regular fa-heart" aria-hidden="true"></i> LIKE';
+        const bookmark = document.createElement('span');
+        bookmark.className = 'bookmark';
+        bookmark.innerHTML = '<i class="fa-regular fa-bookmark" aria-hidden="true"></i> BOOKMARK';
+
+        itemDesc.appendChild(userAvatar);
+        itemDesc.appendChild(itemUserName);
+        itemDesc.appendChild(viewMode);
+        itemDesc.appendChild(likeMode);
+        itemDesc.appendChild(bookmark);
+
+        // Gộp các phần tử lại với nhau
+        proPostPublishedItem.appendChild(itemHeader);
+        proPostPublishedItem.appendChild(itemDesc);
+
+
+        publishedNotesContainer.appendChild(proPostPublishedItem);
+      } else {
+        var arr = document.querySelectorAll('.pro-post-published-item')
+        arr.forEach(element => {
+          if (text == element.querySelector('.item-header span').innerText) {
+            element.classList.add('none')
+          }
+
+        })
+      }
+
+      // Make AJAX request to update published status
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "/update_published", true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      // Send the blog ID and published status in the request body
+      xhr.send(JSON.stringify({ blogID: blogID, published: isChecked }));
+    }
+  </script>
+
+  <script src="../static/responsive/tablet.js"></script>
+
+  <script>
+    // Item Content
+    var itemContents = document.getElementsByClassName("item-content");
+    for (var i = 0; i < itemContents.length; i++) {
+      var itemContent = itemContents[i].innerHTML;
+      var lineItemContent = itemContent.split("\n");
+      console.log(lineItemContent.length)
+      console.log(lineItemContent)
+      for (var j = 0; j < lineItemContent.length; j++) {
+        if (lineItemContent[j].trim().length > 0) {
+          console.log(lineItemContent[j])
+          if (lineItemContent[j].length > 150) {
+            lineItemContent[j] = lineItemContent[j].substring(0, 130) + "...";
+            itemContents[i].innerHTML = lineItemContent[j];
+            console.log(itemContents[i].innerHTML);
+          }
+          else {
+            itemContents[i].innerHTML = lineItemContent[j] + "...";
+          }
+          break;
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

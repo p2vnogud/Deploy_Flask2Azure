@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/responsive-mobile.css" />
+    <title>{{ title }}</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header fixed">
+        <div class="content">
+          <div class="name-web">
+                <h1 class="name-web-details">OpenU</h1>
+          </div>
+          <div class="body">
+            <!-- Nav -->
+            <nav id="mobile-navbar" class="navbar">
+              <ul class="navbar_items">
+                <li class="active nav_home">
+                  <a href="{{ url_for('home')}}" title="Home"><i class="fas fa-home"></i></a>
+                </li>
+                <li>
+                  <a href="/home#" onclick="focusInput()" title="Search"><i class="fas fa-search"></i></a>
+                </li>
+                <li>
+                  <a href="/home#blog" title="Blog" class="nav_edit"><i class="fas fa-edit"></i></a>
+                </li>
+                <li>
+                  <a href="/chat" title="Message" class="nav_mess">
+                    <i class="fas fa-envelope"></i>
+                    <span class="badge noti-chat-badge">3</span>
+                  </a>
+                </li>
+              </ul>
+              <div class="navbar_items_v2 navbar-bottom">
+                <div class="nav-bottom">
+                  <div id="mobile-menu" class="nav_menu none">
+                    <i class="fas fa-bars"></i>
+                  </div>
+                  <ul class="nav-menu-items">
+                <li>
+                  <a href="{{ url_for('profile')}}" title="Profile"><i class="fas fa-user"></i></a>
+                </li>
+                <li class="temp">
+                    <div class="menu-edit"><a href="#"><i class="fa-solid fa-bars menu-icon"></i></a></div>
+                    <ul class="subnav">
+                      <li>
+                        <a href="{{ url_for('settings') }}" title="Settings"><i class="fa-solid fa-gear setting"></i
+                        ></a>
+                      </li>
+                      <li>
+                        <a href="{{ url_for('logout') }}" title="Logout"><i class="fa-solid fa-right-from-bracket logout" style="font-size:18px"></i></i
+                        ></a>
+                      </li>
+                    </ul> 
+                  </li>
+              </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
+        </div>
+      </header>
+
+    <div class="background"></div>
+
+    <!-- Blog Content -->
+    <main class="blog-content">
+        <div class="blog-post" data-post-title="{{ title }}">
+
+            <!-- Move the liked button to the left of the title -->
+            <div class="post-header">
+                <h1>{{ title }}</h1>
+                <div class="like {{ 'like-yes' if liked else 'like-no' }}"></div>
+            </div>
+
+            <h3>Author: <a href="/user/{{ id }}">{{ authorname }}</a></h3>
+            <p>{{ content | safe }}</p>
+            
+            <!-- Render comments -->
+            <div class="blog-comments">
+                {% for cmt in comment_Content %}
+                    <p><span class="comment-username">{{ cmt.username }}</span>: <span class="comment-text">{{ cmt.comment }}</span></p>
+                {% endfor %}
+            </div>
+            
+
+            <textarea id="comment-input" placeholder="Enter your comment"></textarea>
+            <button id="submit-comment">Submit Comment</button>
+        </div>
+    </main>
+
+    <style>
+        .navbar i {
+            font-size: 1rem; 
+        }
+
+        .blog-post h1 {
+            font-size: 4rem !important; 
+            color: #333;
+        }
+
+        main.blog-content {
+            margin-left: 328px;
+            width: 975px;
+        }
+
+        .blog-post {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: 2rem 0;
+        }
+
+        .blog-post h1, .blog-post h3, .blog-post p {
+            margin: 0 0 1rem;
+        }
+        .blog-post p {
+            line-height: 1.5;
+            display: inline; 
+            word-wrap: break-word; 
+            white-space: pre-wrap; 
+        }
+
+        .blog-post h1 {
+            font-size: 2rem;
+            color: #333;
+        }
+
+        .blog-post h3 {
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .blog-comments {
+            margin-top: 2rem;
+            padding: 1rem; 
+            border: 0.5px solid #ddd;
+            border-radius: 6px;
+            background-color: #f9f9f9; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+        }
+
+        .blog-comments h5 {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .blog-comments p {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 1rem;
+            word-wrap: break-word; 
+            white-space: pre-wrap; 
+            line-height: 1.5;
+        }
+
+        #comment-input {
+            width: calc(100% - 30px);
+            padding: 0.5rem;
+            margin-top: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+        #submit-comment {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #submit-comment:hover {
+            background-color: #555;
+        }
+
+        .like-btn {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .like-btn.liked {
+            background-color: #555;
+        }
+
+        .likes-count {
+            margin-left: 1rem;
+            font-size: 1rem;
+            color: #666;
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .like {
+            width: 48px;
+            height: 48px; /* Ensure the element is clickable */
+        }
+
+
+        .comment-username {
+            color: blue;
+            font-weight: bold;
+        }
+
+        .comment-text {
+            display: inline; 
+            word-wrap: break-word; 
+            white-space: pre-wrap; 
+        }
+    </style>
+    <style>
+        .like-no {
+            background: url("../static/img/dislike_2.svg") no-repeat;
+            background-size: 38px 38px;
+            margin-top: 5.8px;
+            margin-left: 4.5px;
+        }
+        .like-yes {
+            background: url("../static/img/like.svg") no-repeat;
+            margin-bottom: 5.3px;
+            margin-right: 5px;
+        }
+    </style>
+
+
+
+    <!-- JavaScript -->
+    <script>
+      const listenForLikes = () => {
+          const likes = document.querySelectorAll(".like");
+          likes.forEach(like => {
+              like.addEventListener("click", (event) => {
+                  event.preventDefault();
+  
+                  const isLiked = event.target.classList.contains("like-yes");
+                  const action = isLiked ? "unlike" : "like";
+                  const postTitle = document.querySelector(".blog-post").getAttribute("data-post-title");
+  
+                  event.target.classList.toggle("like-no");
+                  event.target.classList.toggle("like-yes");
+  
+                  $.ajax({
+                      url: "/updateLike",
+                      type: "POST",
+                      data: {
+                          post_title: postTitle,
+                          action: action
+                      },
+                      success: function(response) {
+                          console.log(response.message);
+                      },
+                      error: function(xhr, status, error) {
+                          console.log("Error: " + xhr.responseText);
+                      }
+                  });
+              });
+          });
+      }
+  
+      document.addEventListener("DOMContentLoaded", () => {
+          listenForLikes();
+      });
+  </script>
+  
+  
+    </script>
+    
+
+
+        
+
+    <script>
+        $(document).ready(function() {
+            $('#submit-comment').click(function() {
+                var comment = $('#comment-input').val().trim();
+                if (comment !== '') {
+                    var blogTitle = $('.blog-post').data('post-title');
+                    $.post(`/addComment/${encodeURIComponent(blogTitle)}`, { content: comment })
+                        .done(function(response) {
+                            document.getElementById('comment-input').value = "";
+                            alert(response);
+                        })
+                        .fail(function(xhr, status, error) {
+                            alert("Error: " + xhr.responseText);
+                        });
+                } else {
+                    alert('Please enter a comment.');
+                }
+            });
+
+            var navbar = document.getElementById('mobile-navbar');
+            var mobileMenu = document.getElementById('mobile-menu');
+            mobileMenu.onclick = function() {
+                var isClosed = navbar.style.overflow === 'hidden';
+                navbar.style.overflow = isClosed ? 'initial' : 'hidden';
+            };
+        });
+    </script>
+
+    <link rel="stylesheet" href="../static/responsive/tablet.css">
+    <script src="../static/responsive/tablet.js"></script>
+    <script src="https://kit.fontawesome.com/c9f23d41c7.js" crossorigin="anonymous"></script>
+</body>
+</html>

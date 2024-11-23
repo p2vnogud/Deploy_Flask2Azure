@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile</title>
+    <link rel="stylesheet" href="../static/css/style.css" />
+    <link rel="stylesheet" href="../static/css/reset.css" />
+    <link rel="stylesheet" href="../static/responsive/tablet.css" />
+    <link rel="stylesheet" href="../static/css/responsive-mobile.css" />
+  </head>
+<body style="overflow-x: hidden">
+    <div class="set-page-container">
+      <header class="setting-header">
+          <span class="setting-banner">Settings</span>
+          <div class="donate"><i class="fa-solid fa-list-check"></i> Donate</div>
+          <div class="mobile-nav-setting none">
+              <ul class="nav-setting-container">
+                  <li class="general">General</li>
+                  <li class="notes">Notes</li>
+                  <li class="set-notifications">Notifications</li>
+              </ul>
+              </div>
+          <div class="back-btn-setting">
+              <a href="/home"><i class="fas fa-home">Home</i></a>
+          </div>
+      </header>
+      <main class="setting-body">
+          <section class="nav-setting">
+              <div class="nav-setting-container">
+                  <div class="general"><a href="#" onclick="showInformations()" class="nav_edit"><i class="fas fa-edit button-profile"></i>General</div>
+                  <div class="general"><a href="#blogs" onclick="showPublishedNotes()" class="nav_edit publish_notes"><i class="fas fa-edit button-profile"></i>Blogs</a></div>
+
+              </div>
+          </section>
+
+
+          <section class="setting-container" id="information-section">
+              <div class="setting-mode">General</div>
+                    <div class="setting-area">
+
+
+                      <div class="set-area-left" id="information-section">
+                          <div class="setting-name">
+                              <label for="inputname">Name</label>
+                              <input type="text" name="name" minlength="1" maxlength="80" id="inputname" placeholder="Your full name" value="{{ name }}" disabled>
+                          </div>
+                          <!--  username -->
+                          <div class="username-input">
+                              <label for="inputusername">Username</label>
+                              <input type="text" name="username" id="inputusername" minlength="1" maxlength="80" value="{{ username }}" disabled>
+                          </div>
+                          <!-- email -->
+                          <div>
+                              <label for="inputemail">Email</label>
+                              <input type="email" name="email" id="inputemail" minlength="1" maxlength="80" value="{{ emailAddr }}" disabled>
+                          </div>
+
+                          <div>
+                              <label for="inputBio">Bio</label>
+                              <textarea class="bio-area bio-area-2" maxlength="160" placeholder="Tell about yourself..." name="bio" id="inputBio"></textarea>
+                          </div>
+                      </div>
+
+                      <div class="set-area-right hidden-element">
+                          <div class="setting-ava"></div>
+                      </div>
+
+
+                    </div>
+            </section>
+
+            <section class="setting-container none" id="blogs-section">
+                <div class="setting-mode">General</div>
+                      <div class="setting-area">
+  
+  
+                        <div class="set-area-left" id="information-section">
+                            <div class="set-area-left ">
+                                {% for title, likes in all_blogs %}
+                                        <div class="blog-frame">
+                                            <a href="/blog/{{ title }}"><h5>{{ title }}</h5></a>
+                        
+                                        </div>
+                                    {% endfor %}
+                              </div>
+                        </div>
+  
+                        <div class="set-area-right hidden-element">
+                            <div class="setting-ava"></div>
+                        </div>
+  
+  
+                      </div>
+              </section>
+          </main>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {% if profile_pic %}
+      <style>
+        .setting-ava {
+          background-image: url("../static{{ url_for('static', filename='../users_uploads/' + profile_pic) }}");
+        }
+      </style>
+      {% endif %} 
+
+
+      <style>
+        .blog-comments {
+            margin-top: 20px;
+
+        }
+        .blog-frame {
+            border: 1px solid #ccc;
+            padding: 18px;
+            padding-left: 10px;
+            padding-right: 29.8em;
+
+            margin: 10px 0;
+            border: 2px solid #6d6d6d;
+            background-color: #394643;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: aliceblue;
+        }
+
+        .blog-frame h5 {
+            margin: 0;
+            padding: 0;
+            font-size: 1.2em;
+            color: aliceblue;
+        }
+
+
+
+    </style>
+
+    <script>
+        function showPublishedNotes() {
+          var userInfomationSection = document.getElementById('information-section');
+          var userBlogsProfile = document.getElementById('blogs-section');
+          //var likedPostsContainer = document.getElementById('likedNotesContainer');
+            
+          userInfomationSection.classList.add('none');
+          userBlogsProfile.classList.remove('none');
+          //likedPostsContainer.classList.add('none');
+            
+        }
+
+        function showInformations() {
+            var userInfomationSection = document.getElementById('information-section');
+            var userBlogsProfile = document.getElementById('blogs-section');
+          //var likedPostsContainer = document.getElementById('likedNotesContainer');
+            
+            userInfomationSection.classList.remove('none');
+            userBlogsProfile.classList.add('none');
+          //likedPostsContainer.classList.add('none');
+            
+        }
+    </script>
+</body>
+</html>

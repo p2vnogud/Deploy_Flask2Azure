@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chat</title>
+    <link rel="stylesheet" href="./../static/css/style.css" />
+    <link rel="stylesheet" href="./../static/css/reset.css">
+    <link rel="stylesheet" href="./../static/responsive/tablet.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="./../static/js/index.js"></script>
+    <link rel="stylesheet" href="../static/css/responsive-mobile.css"/>
+    <link href='https://fonts.googleapis.com/css?family=Lily Script One' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">  
+</head>
+  <body class="chatbox-bg">
+    <header class="header fixed">
+      <div class="content">
+        <div class="name-web">
+          <h1 class="name-web-details">OpenU</h1>
+        </div>
+        <div class="body">
+          <!-- Nav -->
+          <nav id="mobile-navbar" class="navbar">
+            <ul class="navbar_items">
+              <li class="active nav_home">
+                <a href="{{ url_for('home')}}" title="Home"><i class="fas fa-home"></i></a>
+              </li>
+              <li>
+                <a href="#" onclick="focusInput()" title="Search" id="nav-search" class="nav_search"><i class="fas fa-search"></i></a>
+              </li>
+              <li>
+                <a href="#blog" title="Blog" id="nav-post" class="nav_edit"><i class="fas fa-edit"></i></a>
+              </li>
+              <li>
+                <a
+                  href="#notification"
+                  title="Notification"
+                  class="nav_noti"
+                  onclick="redirectToHome('noti')"
+                  ><i class="fas fa-bell nav_noti_icon"></i>
+                  <span class="badge">{{count_noti[0]}}</span></a
+                >
+              </li>
+              <li>
+                <a href="#" title="Message" class="nav_mess"
+                  ><i class="fas fa-envelope"></i>
+                  <span class="badge">{{count_noti_chat[0]}}</span></a
+                >
+              </li>
+            </ul>
+            <div class="navbar_items_v2 navbar_items navbar-bottom">
+              <div class="nav-bottom">
+                <div id="mobile-menu" class="nav_menu none">
+                  <i class="fas fa-bars"></i>
+                </div>
+                <ul class="nav-menu-items">
+              <li class="profile">
+                <a href="{{ url_for('profile')}}" title="Profile"><i class="fas fa-user"></i></a>
+              </li>
+              <li class="temp">
+                <div class="menu-edit"><a href="#"><i class="fa-solid fa-bars menu-icon"></i></a></div>
+                <ul class="subnav">
+                  <li>
+                    <a href="{{ url_for('settings') }}" title="Settings"><i class="fa-solid fa-gear setting"></i
+                    ></a>
+                  </li>
+                  <li>
+                    <a href="{{ url_for('logout') }}" title="Logout"><i class="fa-solid fa-right-from-bracket logout" style="font-size:18px"></i></i
+                    ></a>
+                  </li>
+                </ul> 
+              </li>
+            </ul>
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </header>
+    <div class="chat-container">
+      <div class="chat-header">
+        <h3 class="h3-name-web">OpenU</h3>
+        <span class="name-user-display">User: {{ownname}}</span>
+      </div>
+      <div class="chat-messing">
+        <div class="inbox-mess">
+          <div id = "inbox-list" class="inbox-peo">
+            <div class="inbox-peo-header">
+              <p class="inbox-recent">Recent</p>
+              <div class="inbox-search-wrap">
+                <label for="inbox-search"
+                  ><i class="menu-item-icon fa fa-search mr-0"></i
+                ></label>
+                 <input
+                  class="input-search2"
+                  type="text"
+                  id="inbox-search"
+                  name="inbox-search"
+                  placeholder="Search name"
+                  data-search
+                />
+              </div>
+              <button id="new_chat_btn">
+                <i class="fa fa-plus"></i> New Chat
+              </button>
+             <!-- <div class="connected_email">
+                <input type="text" class="input_email" placeholder="your email friend">
+              </div>-->
+              <div id="add_friend" class="none">
+                <div class="close"></div>
+                <form id="connected_email" >
+                  <label for="input_email">Email or username:</label>
+                  <input type="text" id="input_email" name="search_input"><br><br>
+                  <label for="input_invite">Content:</label>
+                  <input type="text" id="input_invite" name="invite_input"><br><br>
+                  <button type="submit">Add</button>
+                </form>
+                
+              </div>
+              
+              <script>
+                function redirectToHome(e) {
+                  if(e == 'noti'){
+                    window.location.href = "/home#noti";
+
+                  }
+                  else if (e == 'blog'){
+                    window.location.href = "/home#blog";
+
+                  }else if (e== 'settings'){
+                    window.location.href = "/settings";
+                    
+                  }
+                  else if (e == 'logout'){
+                    window.location.href = "/logout";
+                    
+                  }
+                  else if (e == 'profile'){
+                    window.location.href = "/profile";
+
+                  }
+              }
+
+                document.getElementById('new_chat_btn').addEventListener('click',function(){
+                  if (document.getElementById("add_friend").classList.contains("none")) {
+                    document.getElementById("add_friend").classList.remove("none");
+                  } else {
+                    document.getElementById("add_friend").classList.add("none");
+                  }
+                })
+                document.querySelector(".close").addEventListener('click',function(){
+                  document.getElementById("add_friend").classList.add("none");
+                })
+            </script>
+
+
+            </div>
+            <div class="inbox-peo-list">
+              <!-- mem1 -->
+              <div class"mem-mess">
+              {% for i in data %}
+                <a href="/chat?rid={{i.room_id}}" onclick="toConservation()">
+                <div class="inbox-peo-mem">
+                  <div class="inbox-ava"></div>
+                  <div class="inbox-info">
+                    <h3 class="inbox-username">{{i["username"][0]}}</h3>
+                    <span class="inbox-desc " id="last-message"
+                      > {% if i["last_message"]!=none %}{{ i["last_message"][1] }}{% endif %}</span
+                    >
+                  </div>
+                </div>
+              </a>
+              {% endfor %}
+              </div>
+            </div>
+          </div>
+          
+          <div id ="conservation" class="mess">
+            <div id="back-button" class="mobile-back-button none">
+              <i class="material-icons" onclick="BacktoInboxPeo()">arrow_back</i>
+            </div>   
+            <div class="msg_history">
+                {% for j in messages %}
+                  {% if j.sender_username==ownname %}
+                  <div class="outgoing_msg" id="{{ j.timestamp }}">
+                    <div class="sent_msg">
+                      <p>{{ j.content }}</p>
+                      <span class="time_date">{{ j.timestamp | ftime }}</span>
+                    </div>
+                  </div>
+                  {% else %}
+                  <div class="incoming_msg" id="{{ j.timestamp }}">
+                    <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil">
+                    </div>
+                    <div class="received_msg">
+                      <div class="received_withd_msg">
+                        <p>{{ j.content }}</p>
+                        <span class="time_date">{{ j.timestamp | ftime }}</span>
+                      </div>
+                    </div>
+                  </div>
+                  {% endif %}
+                {% endfor %}
+
+
+            </div>
+            <div class="type-mess">
+              <div class="input_msg_write">
+                <form id="chat_form">
+                  <input type="text" class="message" placeholder="Type a message" />
+                  <button class="msg_send_btn" type="submit">
+                    <i class="fa-regular fa-paper-plane" aria-hidden="true"></i>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="toast"></div>
+    </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+      <script src="./../static/js/index.js"></script>
+      <script src="./../static/js/responsive-mobile.js"></script>
+      <script src="./../static/responsive/tablet.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        const listusername =   [
+        {% for i in data %}
+        {
+            "username": {{i["username"][0]|tojson}},
+            "room_id":"{{i['room_id']}}"
+        }{% if not loop.last %},{% endif %} 
+        {% endfor %}
+        ];
+         var searchInput2 = document.querySelector(".input-search2")
+         searchInput2.addEventListener("input", e => {
+          
+           const value = e.target.value.toLowerCase()
+           listusername.forEach(name => {
+            const isVisible =
+               name.username.toLowerCase().includes(value) 
+               username = name.username
+               room_id = name.room_id
+               const link = document.querySelector(`[href="/chat?rid=${room_id}"]`)
+               link.classList.toggle("none", !isVisible)
+           })
+
+       })
+    </script> 
+    <script
+      src="https://kit.fontawesome.com/c9f23d41c7.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
+
+
+    <script>
+      document.getElementById('connected_email').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        var formData = new FormData(this); 
+      fetch('/new_chat', {
+          method: 'POST',
+          body: formData 
+      })
+      .then((response) => {
+        if (response.status === 200) {
+            showSuccessToast("New chat created successfully");
+            return response.json();
+        } else if (response.status === 400) {
+            showErrorToast("Chat already exists");
+            throw new Error("Chat already exists");
+        } else if (response.status === 404) {
+            showErrorToast("User not found");
+            throw new Error("User not found");
+        } else {
+            showErrorToast("Errorrrr");
+            throw new Error("Server error");
+        }
+    })
+    .then(data => {
+        const chatId = data.chat_id;
+        socket.emit('join-chat', {
+          rid: chatId
+        })
+    })
+      .catch((error) => {
+          console.error("Error:", error);
+          showErrorToast("Something went wrong, try again later!")
+      });
+    });
+    </script>
+
+    <script type="text/javascript">
+
+      // THIS FUNCTION SHOULD SCROLL DOWN AUTOMATICALLY
+      //let scrollingElement = (document.scrollingElement || document.body)
+      let msgH = document.querySelectorAll(".msg_history > div"), CurrentLen;
+      let init = () => {
+        CurrentLen = msgH.length;
+      }
+      init();
+      let validatePosition = () => {
+        if (msgH.length === CurrentLen) {
+          msgH[msgH.length - 1].setAttribute("id", "last_message");
+          for (var i; i < msgH.length; i++) {
+            if (msgH[i].id === "last_message" && msgH[i] !== msgH.length - 1) {
+              msgH[i].removeAttribute("id");
+              msgH[msgH.length - 1].setAttribute("id", "last_message");
+            }
+          }
+        }
+      }
+      let scrollDown = () => {
+        //scrollingElement.scrollTop = scrollingElement.scrollHeight;
+        //$container.animate({scrollTop: $container[0].scrollHeight }, "slow");
+        validatePosition();
+        location.href = "#last_message";
+        init();
+      }
+  
+      // SOCKET CODE
+      var socket = io.connect('http://' + document.domain + ':' + location.port + '/?rid=' + "{{ room_id }}" );
+
+      var socket2 = io.connect('http://localhost:7777')
+
+      //scrollDown()
+      socket2.on('connect', function () {
+          console.log("heheheheh")
+      })
+
+
+      socket2.on('invited', function (msg="11") {
+        if("{{myid}}" == msg.to){
+          showSuccessToast("You have new invite from" + msg.from);
+          var noti_span =    document.querySelector('.nav_noti span')
+          var count = parseInt(noti_span.innerHTML)
+          count += 1
+          noti_span.innerHTML = count
+        }
+        else if ("{{myid}}" == msg.from){
+          socket.emit('add_stack_noti', {
+            timestamp: parseInt(Date.now()/1000),
+            from: msg.from,
+            to: msg.to,
+            message : msg.content,
+            } )
+        }
+      })
+
+      socket2.on('gengen', function (msg="11") {
+        if("{{myid}}" == msg[1]){
+          showSuccessToast("Your friend had accepted your request");
+          socket.emit('join-chat', {
+            rid: msg[0],
+            myid: msg[1]
+          })
+        }
+      })
+
+
+      socket.on('message', function (msg,a="",b="") {
+          $('div.msg_history').append(`<div class="incoming_msg">
+          <div class="incoming_msg_img"> <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"> </div>
+          <div class="received_msg">
+            <div class="received_withd_msg">
+              <p>${msg.message}</p>
+              <span class="time_date"> ${formatDate(new Date())}</span></div>
+          </div>
+        </div>`)
+        scrollDown();
+        document.getElementById("last-message").innerHTML = msg.message
+      })
+      socket.on('joined-chat', function (msg) {
+        // Tạo ra phần tử div chính (inbox-peo-mem)
+        // Tạo phần tử a
+        const linkElement = document.createElement("a");
+        linkElement.href = `/chat?rid=${msg[1]}`; // Đặt giá trị href cho phần tử a
+
+        const inboxPeoMemDiv = document.createElement("div");
+        inboxPeoMemDiv.classList.add("inbox-peo-mem");
+
+        // Tạo ra phần tử div cho hình đại diện (inbox-ava)
+        const inboxAvaDiv = document.createElement("div");
+        inboxAvaDiv.classList.add("inbox-ava");
+
+        // Tạo ra phần tử div cho thông tin người dùng (inbox-info)
+        const inboxInfoDiv = document.createElement("div");
+        inboxInfoDiv.classList.add("inbox-info");
+
+        // Tạo ra phần tử h3 cho tên người dùng (inbox-username)
+        const usernameHeading = document.createElement("h3");
+        usernameHeading.classList.add("inbox-username");
+        usernameHeading.textContent = msg[0][0]; // Nội dung tên người dùng
+
+        // Tạo ra phần tử span cho mô tả (inbox-desc)
+        const descSpan = document.createElement("span");
+        descSpan.classList.add("inbox-desc");
+        descSpan.id = "last-message"; // ID của phần tử span
+
+        // Gắn các phần tử vào nhau theo cấu trúc
+        inboxInfoDiv.appendChild(usernameHeading);
+        inboxInfoDiv.appendChild(descSpan);
+        inboxPeoMemDiv.appendChild(inboxAvaDiv);
+        inboxPeoMemDiv.appendChild(inboxInfoDiv);
+
+        // Thêm phần tử div chính (inbox-peo-mem) vào trong văn bản của trang web
+        linkElement.appendChild(inboxPeoMemDiv)
+        document.querySelector('.inbox-peo-list').appendChild(linkElement);
+
+      })
+      
+      socket2.on('receive-notichat', function(msg){
+        if("{{myid}}" == msg.toid){
+            showSuccessToast("You have new message from "+msg.fromname);
+            var noti_span = document.querySelector('.nav_noti span')
+            var count = parseInt(noti_span.innerHTML)
+            count += 1
+            noti_span.innerHTML = count
+        }
+        
+      })
+
+      var form = $('#chat_form').on('submit', function (e) {
+        e.preventDefault()
+        let user_input = $('input.message').val()
+        if(!user_input.trim()){
+          console.log("Do not enter an empty")
+        }else{
+          socket.emit('outgoing', {
+            timestamp: parseInt(Date.now()/1000),
+            sender_username: "{{ ownname }}",
+            sender_id: "{{ myid }}",
+            message : user_input,
+            rid: '{{ room_id }}'
+            } )
+            socket2.emit('noti-chat',{
+              fromname: "{{ownname}}",
+              fromid: "{{myid}}",
+              rid: "{{ room_id }}",
+              toid: "{{ des_id }}"
+            })
+            $('div.msg_history').append(`
+            <div class="outgoing_msg">
+              <div class="sent_msg">
+                <p>${user_input}</p>
+                <span class="time_date"> ${formatDate(new Date())}</span> </div>
+            </div>
+          `)
+          document.getElementById("last-message").innerHTML = user_input
+          $('input.message').val('').focus()
+          scrollDown();
+        }
+          } )
+
+      // Search focusInput
+  //    var elementSearch  = document.querySelector(".search-input");
+  //    elementSearch.addEventListener("click",function(){
+  //      document.querySelector('.input-search2').focus();
+ //     })
+
+
+      document.getElementById('connected_email').addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+      var formData = new FormData(this); 
+      fetch('/new_chat', {
+          method: 'POST',
+          body: formData 
+      })
+      .then((response) => {
+        if (response.status === 200) {
+            showSuccessToast("New chat created successfully");
+            return response.json();
+        } else if (response.status === 400) {
+            //showErrorToast("Chat already exists");
+            throw new Error("Chat already exists");
+        } else if (response.status === 404) {
+            //showErrorToast("User not found");
+            throw new Error("Already invite or user not found");
+        } else {
+            showErrorToast("Errorrrr");
+            throw new Error("Server error");
+        }
+    })
+    .then(data => {
+        const chatId = data.chat_id;
+        socket2.emit('invite', {
+          rid: chatId,
+          from:"{{myid}}",
+          content: data.content
+        })
+    })
+      .catch((error) => {
+          showErrorToast(error)
+      });
+    });
+    </script>
+    <script>
+      function formatDate(date) {
+        // Get the hours, minutes, and seconds from the Date object.
+        const hours = date.getHours();
+        let formattedHours;
+  
+        if (hours > 12) {
+            formattedHours = hours - 12;
+        } else if(hours === 0) {
+            formattedHours = 12;
+        } else {
+            formattedHours = hours;
+        }
+        const minutes = date.getMinutes();
+        //const seconds = date.getSeconds();
+  
+        // Get the month and day from the Date object.
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+  
+        // Create a string with the desired time format.
+        const timeFormat = `${formattedHours}:${minutes} ${(hours >= 12) ? 'PM' : 'AM'} | ${month}/${day}`;
+  
+        // Return the time format string.
+        return timeFormat;
+      }
+   </script>
+   <script>
+    function BacktoInboxPeo() {
+      var conservation = document.getElementById('conservation');
+      var inboxList = document.getElementById('inbox-list')
+      var isOpened = conservation.style.display !== 'none';
+        if (isOpened){
+          conservation.style.display = 'none';
+          inboxList.style.display = "block";
+        }
+    }
+  </script>
+  <script>
+    function toConservation() {
+      var href = location.href; // Lấy đường dẫn từ thuộc tính href
+      //window.location.replace(href); // Thực hiện chuyển hướng mà không gây hiện tượng lịch sử trở lại
+      var url = new URL(href)
+      var rid = url.searchParams.get("rid")
+      if(rid){
+        console.log(location.href);
+        var conservation = document.getElementById('conservation');
+        var inboxList = document.getElementById('inbox-list');
+        var isOpened = inboxList.style.display !== 'none';
+        if (isOpened) {
+            conservation.style.display = 'flex';
+            inboxList.style.display='none';
+
+        }
+      }
+      // Thực hiện các thay đổi CSS
+  
+  
+   } 
+    var mediaQuery = window.matchMedia('(max-width: 46.1875em)');
+    var mediaQuery1 = window.matchMedia(
+          "(min-width: 46.25em) and (max-width: 63.9375em)"
+        );
+    if (mediaQuery.matches || mediaQuery1.matches) {
+          toConservation()
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,852 @@
+/*Tablet*/
+@media ((min-width: 46.25em) and (max-width: 64em) ) {
+    /* Logout, Login */
+    .btn-osu-big--account-edit {
+        height: 50px;
+        width: 50%;
+        text-align: center;
+        margin-top: 30px;
+        font-size: 20px;
+    }
+
+    .hidden-element {
+        display: none !important;
+    }   
+
+    /* Register */
+    .account-edit-entry {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .account-edit-entry__input {
+        max-width: 100%;
+        font-size: 20px;
+    }
+
+    .account-edit-entry__label {
+        width: 100%;
+        text-align: left;
+        font-size: 20px;
+        margin-bottom: 5px;
+    }
+
+    .account-edit-entry--no-label {
+        padding: 0;
+        width: 100%;
+        margin-bottom: 20px;
+    }
+
+    .header-nav-v4--list {
+        font-size: 20px;
+    }
+
+    .header-v4__row--title {
+        justify-content: center;
+        height: 80px;
+    }
+
+    .header-v4__icon {
+        width: 50px;
+        margin-right: 15px;
+    }
+
+    .header-v4__title {
+        font-size: 35px;
+    }
+
+    .nav2 {
+        font-size: 30px;
+    }
+
+    .nav2__menu-link-main {
+        margin-right: 10px;
+    }
+
+    .nav2__col--menu {
+        position: absolute;
+        right: 0;
+    }
+
+    .nav2__colgroup {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .nav2__menu-link-main-register {
+        margin-right: 35px;
+    }
+
+    /* Home */
+    .header.fixed {
+        height: 100px;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        /* display: block; */
+        /* position: relative; */
+        z-index: 1;
+        background-color: #000;
+    }
+    .navbar {
+        position: absolute;
+        height: 100px;
+        width: 100%;    
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    .navbar_items {
+        display: block;
+        width: auto;
+        height: 60px;
+    } 
+
+    .navbar .nav-bottom {
+        margin-top: initial;
+    }
+
+    .nav-bottom {
+        height: 60px;
+    }
+
+    .navbar_items li {
+        display: inline-block;
+    }
+
+    .nav-menu-items li {
+        display: inline-block;
+        align-items: center;
+    }
+
+    .blog-container {
+        display: block;
+        width: 100%;
+        margin-top: 0;
+        height: 100%;
+    }
+
+    .blog-profile {
+        display: none;
+    }
+
+    /* Blog user info */
+    .blog-user-info {
+        /* display: none; */
+        margin-top: 14%;
+        max-width: none;
+        width: 90%;
+        /* display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column; */
+        z-index: 2;
+    }
+
+    .right-side1 .rs-search {
+        height: 100px;
+    }
+
+    .right-side1 .rs-desc-pro {
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .rs-search .input-search {
+        margin-left: 0;
+        width: 90%;
+        height: 50%;
+        padding-bottom: 10px;
+        padding-left: 5px;
+        text-align: left;
+    }
+
+    .rs-search label {
+        display: none;
+    }
+
+    .right-side-2 {
+        height: 640px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .rs2-container {
+        flex: 1;
+        height: 100%;
+    }
+
+    .right-side1 .rs-banner {
+        font-size: 30px;
+    }
+
+    .right-side1 .rs1-desc {
+        font-size: 16px;
+    }
+
+    .right-side1 {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        width: 80%;
+    }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    .right-side-2 .rs2-nav {
+        font-size: 30px ;
+    }
+
+    .rs2-pro-img {
+        width: 200px;
+        height: 200px;
+        margin-top: 60px;
+    }
+
+    .rs2-pro-name {
+        font-size: 35px;
+        margin-top: 15px;
+        margin-bottom: 90px;
+    }
+
+    .rs2-info-list {
+        font-size: 30px;
+    }
+
+    .rs2-info-list p {
+        width: 150px;
+    }
+
+
+    .home-page {
+        text-align: center ;
+        position:absolute;
+        left: 0;
+        right: 0;
+        padding: 0 10px;
+        margin-top: 55px;
+    }
+
+    .navbar i {
+        color: #adb5bd;
+        
+    }
+    .ti-search {
+        font-size: 20px;
+    }
+    
+    .notifications {
+        margin-top: 0;
+    }
+
+    .navbar_items li {
+        font-size: 35px;
+    }
+
+    .nav-top li {
+        margin-left: 12px;
+    }
+
+    .nav-bottom li{
+        color: #fff;
+        /* padding-bottom: 30px; */
+        margin-top: -5px;
+        position: relative;
+    }
+
+    .navbar i {
+        font-size: 40px;
+    }
+
+    .navbar_items .profile {
+        margin-right: 10px;
+    }
+
+    .subnav {
+        position: absolute;
+        background-color: rgba(52, 58, 64, 1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        display: none;
+        border-radius: 10px;
+    }
+
+    .subnav > li {
+        padding: 0;
+        width: 100%;
+    }
+
+    .nav-bottom .temp:hover .subnav {
+        display: block;
+    }
+
+    .temp .menu-edit {
+        display: block;
+      }
+
+    /* .nav-bottom .temp .menu-icon {
+        display: inline-block;
+        font-size: auto;
+    } */
+
+    .nav-bottom .temp {
+        padding-bottom: 0;
+        height: 85px;
+    }
+
+    .temp > a {
+        padding-bottom: 14px;
+        height: 85px;
+        margin-bottom: 0;
+    }
+
+    .subnav > li > a {
+        padding-bottom: 15px;
+        padding-top: 20px;
+        font-size: 50px;
+    }
+
+    .navbar .logout {
+        font-size: 30px !important;
+    }
+
+    .navbar .setting {
+        font-size: 30px;
+    }
+
+    .post,
+    .create-blog {
+        /* width: 600px; */
+        width: 90%;
+        font-size: 25px;
+    }
+
+    .post-items,
+    .create-blog-container {
+        align-items: center;
+    }
+
+    .post-meta {
+        font-size: 25px;
+    }
+
+    .post-header .post-title {
+        font-size: 25px;
+    }
+
+    .create-title .title-blog {
+        width: 100%;
+        height: 40px;
+    }
+
+    
+
+
+
+
+    /* Post */
+
+    .blog-page {
+        margin-top: 150px;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .create-blog-container {
+        margin-left: 0;
+    }
+
+    .create-blog-container .create-blog {
+        width: 90%;
+    }
+
+    .create-blog .view-blog {
+        font-size: 25px;
+    }
+
+    .post-redirect-btn {
+        margin-top: 10px;
+    }
+    
+    .create-post .post-tags {
+        font-size: 20px;
+    }
+
+    .create-post .post-tags a{
+        margin-right: 15px;
+    }
+
+    .post-content {
+        overflow: hidden;
+    }
+
+    /* Notification */
+    .blog-noti {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    .notification {
+        margin-top: 110px;
+        max-width: none;
+        height: auto;
+        width: 90%;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .noti-header .noti-banner {
+        font-size: 30px;
+    }
+
+    .noti-header .noti-desc {
+        font-size: 18px;
+    }
+
+    .noti-item .noti-ava {
+        height: 90px;
+        width: 90px;
+        margin-right: 30px;
+    }
+
+    .noti-content {
+        overflow-wrap: break-word;
+        max-width: 500px;
+        text-align: left;
+        letter-spacing: 1px;
+        font-size: 18px;
+        font-weight: 200;
+    }
+
+
+    /* Profile */
+    .post-container {
+        width: 100%;
+    }
+
+    .post-filter {
+        /* display: block; */
+        position: relative;
+        align-items: center;
+        justify-content: space-around;
+        width: 100%;
+        flex-wrap: wrap;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .post-filter .tags {
+        flex-grow: 0.5;
+    }
+
+    .post-filter .search-post {
+        flex-grow: 2;
+    }
+
+    .post-filter .n2o-filter {
+        flex-grow: 1;
+    }
+
+    .post-filter .filter-item:last-child {
+        margin-right: 18px;
+    }
+
+    .pro-container {
+        /* height: 1024px; */
+    }
+
+    .pro-sidebar {
+        width: 190px;
+        height: 1024px;
+    }
+    .noti-header{
+        padding: 30px;
+    }
+    .placeholder{
+        padding: 20px !important;
+    }
+    #lmao{
+        overflow-y: scroll;
+        max-height: calc( 1024px - 173px);
+      }
+    .lmao{
+        overflow-y: scroll;
+        max-height: calc( 1024px - 173px);
+      }
+
+    .nav-post {
+        margin: 0;
+        /* position: fixed; */
+
+    }
+
+    .wrapper{
+        margin: auto;
+    }
+
+    .n2o-filter .fa-angle-down {
+        margin-left: 8px;
+    }
+
+    .tags .fa-angle-down {
+        margin-left: 8px;
+    }
+
+
+    .pro-post-items {
+        margin: auto;
+        margin-right: 18px;
+        font-size: 18px;
+    }
+
+    .edit-profile {
+        width: 180px;
+    }
+
+    .like-mode, .bookmark, .view-mode {
+        margin-right: 28px  ;
+        font-size: 15px;
+    }
+
+    .item-user-name {
+        margin-right: 15px;
+    }
+
+    .nav-post div {
+        font-size: 15px;
+    }
+
+    .info-user-details {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    /* Setting */
+    /* Setting header */
+    .setting-header .donate {
+        font-size: 24px;
+    }
+
+    .back-btn-setting {
+        font-size: 24px;
+    }
+
+    .setting-body {
+        display: block; 
+        padding-top: 0;
+        height: calc(100vh - 95px);
+    }
+
+    .setting-area {
+        display: block;
+    }
+
+    .setting-area-right {
+        display: block;
+    }
+
+    .setting-container {
+        margin-left: 0;
+    }
+
+    .setting-container .setting-mode {
+        display: none;
+    }
+    
+    .nav-setting {
+        height: auto;
+    }
+
+    .nav-setting-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .nav-setting-container div {
+        flex-grow: 1;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .set-area-left div input {
+        width: 100%;
+    }
+
+    #inputBio {
+        width: 100%;
+    }
+
+    .rule-input {
+        margin-top: 5px;
+    }
+
+    .set-area-right {
+        display: flex;
+        flex-direction: row;
+        align-items: normal;
+        justify-content: space-between;
+        margin-left: 0;
+        margin-top: -60%;
+        border: 1px solid #fff;
+        height: 320px;
+        position: absolute;
+        z-index: 2;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        transform: translateZ(0);
+        background-color: #19201c;
+        width: 705px;
+        right: 4%;
+        top: 85%;
+    }
+
+    .save-change {
+        right: 37%;
+        position: absolute;
+        margin-top: 0;
+        top: 63%;
+        font-size: 25px;
+        z-index: 100;
+    }
+
+    .item-close-set {
+        font-size: 30px;
+        color: turquoise;
+        position: absolute;
+        right: 4px;
+    }
+
+    .choose-photo,
+    .reset-pass {
+        margin: 0;
+        height: 44px;
+        width: fit-content;
+        padding: 8px 14px;
+        font-size: 25px;
+        margin-top: 70px;
+        margin-right: 22px;
+    }
+
+    .setting-ava {
+        height: 190px;
+        width: 190px;
+    }
+
+    .item-desc .tablet-font {
+        font-size: 16px;
+    }
+
+    .btn-edit-setting {
+        position: absolute;
+        right: 30%;
+        bottom: 130px;
+        font-size: 25px;
+        border: 1px solid #fff;
+        background-color: #39ac91;
+        font-weight: 500;
+        color: #fff;
+        border-radius: 3px;
+        text-align: center;
+        padding: 8px 14px;
+        width: 300px;
+        display: block !important;
+        animation: none;
+    }
+
+
+    /* Chat box */
+    .chat-header{
+        display: none;
+    }
+
+    .chat-container{
+        min-width: 0;
+        width: auto;
+        padding: 0;
+        margin-left: 0;
+        height: 100%;
+    }
+
+    .chat-messing {
+        margin-top: 100px;
+        display: flex;
+    }
+
+    .inbox-mess .mess{
+        height: 924px;
+        width: 768px;
+        padding-left: 40px;
+        padding-top: 40px;
+    }
+
+    .inbox-mess .inbox-peo{
+        width: 100%;
+        height: calc(1024px - 100px);
+    }
+
+    .inbox-peo .inbox-recent {
+        display: none;
+    }
+
+    .inbox-search-wrap > label {
+        display: none;
+    }
+
+    .inbox-peo-list {
+        width: 370px;
+    }
+
+    .inbox-peo-header {
+        height: 80px;
+        margin-bottom: 10px;
+    }
+
+    #new_chat_btn {
+        top: 38px;
+        right: 5px;
+        height: 33px;
+        font-size: 20px;
+    }
+
+    .inbox-search-wrap input {
+        margin-top: 30px;
+        font-size: 25px;
+        height: 35px;
+        width: 232px;
+        margin: 30px 0 0 0;
+    }
+
+    .input_msg_write {
+        height: 50px;
+    }
+
+    #chat_form {
+        font-size: 30px;
+    }
+
+    #chat_form .message {
+        font-size: 20px;
+    }
+
+    #chat_form .msg_send_btn {
+        font-size: 20px;
+    }
+
+    #connected_email {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 100%;
+        background-color: rgba(48, 57, 61, 0.7);
+        background-image: none;
+    }
+
+    #add_friend {
+        position: fixed;
+        top: 106px;
+        right: 0px;
+        width: 399px;
+        height: 31%;
+    }
+
+    .close {
+        right: 0;
+    }
+
+    .close:before, .close:after {
+        height: 20px;
+        width: 5px;
+    }
+
+    #connected_email > label {
+        font-size: 22px;
+    }
+
+    #connected_email > input {
+        font-size: 27px;
+        margin-top: 4px;
+        width: 314px;
+    }
+
+    #connected_email > button {
+        margin-top: 15px;
+        font-size: 24px;
+        width: 93%;
+    }
+
+    input#input_invite {
+        margin-left: 0;
+    }
+
+    .inbox-peo-mem {
+        padding: 15px;
+        margin: 0px;
+        margin: 20px 15px 0 15px;
+    }
+
+    .inbox-info {
+        font-size: 22px;
+    }
+
+    .inbox-mess {
+        display: block;
+    }
+
+    #conservation {
+        display: none;
+    }
+
+    #inbox-list {
+        /* display: none; */
+    }
+    
+    .mobile-back-button{
+        display: block !important;
+        position: sticky;
+        top: 0;
+        left: 0;
+        margin-top: -10px;
+    }
+
+    .msg_history {
+        height: 784px;
+        margin-top: 10px;
+    }
+
+
+    /* View blog */
+    main.blog-content {
+        margin-left: 0;
+        width: 100%;
+        margin-top: 180px;
+        padding-right: 30px;
+        padding-left: 30px;
+    }
+
+    /* test  */
+    
+}

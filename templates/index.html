@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../static/css/reset.css" />
+  <link rel="stylesheet" href="../static/css/style.css" />
+  <link rel="stylesheet" href="../static/css/responsive-mobile.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    integrity="sha384-X6d13e5gKALF2DI8z5/jFfkhpk11lK5vdOB67HquyKbSrLp04I0ypSNf/JFF6Ds3" crossorigin="anonymous" />
+  <link href='https://fonts.googleapis.com/css?family=Lily Script One' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
+  <title>Open U</title>
+  <style></style>
+  <link rel="stylesheet" href="../static/responsive/tablet.css" />
+</head>
+
+<body class="scrollbar">
+  <!-- Header -->
+  <header class="header fixed">
+    <div class="content">
+      <div class="name-web">
+        <h1 class="name-web-details">OpenU</h1>
+      </div>
+      <div class="body">
+        <!-- Nav -->
+        <nav id="mobile-navbar" class="navbar">
+          <ul class="navbar_items">
+            <li class="active nav_home">
+              <a href="{{ url_for('home')}}" title="Home"><i class="fas fa-home"></i></a>
+            </li>
+            <li class="btn-search">
+              <a href="#" onclick="focusInput()" title="Search" id="nav-search" class="nav_search"><i
+                  class="fas fa-search"></i></a>
+            </li>
+            <li>
+              <a href="#blog" title="Blog" id="nav-post" class="nav_edit"><i class="fas fa-edit"></i></a>
+            </li>
+            <li>
+              <a href="#notification" title="Notification" class="nav_noti"><i class="fas fa-bell nav_noti_icon"></i>
+                <span class="badge noti-badge">{{count_noti[0]}}</span></a>
+            </li>
+            <li>
+              <a href="/chat" title="Message" class="nav_mess"><i class="fas fa-envelope"></i>
+                <span class="badge noti-chat-badge">{{count_noti_chat[0]}}</span></a>
+            </li>
+          </ul>
+          <div class="navbar_items_v2 navbar_items nav-bottom navbar-bottom">
+            <div class="nav-bottom navbar_items">
+              <div id="mobile-menu" class="nav_menu none">
+                <i class="fas fa-bars"></i>
+              </div>
+              <ul class="nav-menu-items">
+                <li class="profile">
+                  <a href="{{ url_for('profile')}}" title="Profile"><i class="fas fa-user"></i></a>
+                </li>
+                <li class="temp">
+                  <div class="menu-edit"><a href="#"><i class="fa-solid fa-bars menu-icon"></i></a></div>
+                  <ul class="subnav">
+                    <li class="subnav-setting">
+                      <a href="{{ url_for('settings') }}" title="Settings"><i class="fa-solid fa-gear setting"></i></a>
+                    </li>
+                    <li>
+                      <a href="{{ url_for('logout') }}" title="Logout"><i class="fa-solid fa-right-from-bracket logout"
+                          style="font-size:18px"></i></i></a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </header>
+  <!-- Notifications -->
+  <div class="notifications">
+    <!-- Your notifications content goes here -->
+  </div>
+  <div class="background"></div>
+  <main class="blog-container">
+    <!-- Blog-home area -->
+    <section class="home-page" style="width: 70%;">
+      <div class="post-items container">
+        <main class="">
+          <!-- Blog-home area -->
+          <section class="home-page">
+            <div class="post-items ">
+              {% for post in blog_info %}
+              <article class="post card-border" id="post-{{ loop.index }}">
+                <header class="post-header text-center">
+                  <a class="post-title" href="/blog/{{ post.title | urlencode }}">{{ post.title }}</a>
+                  <!-- desc post item -->
+                  <div class="post-meta">
+                    <div class="post-meta-detail post-meta-detail-time">
+                      <i class="fa-sharp fa-regular fa-clock"></i>
+                      <time title="2022-4-10 18:02:30 | 2023-2-13 18:07:46">
+                        2022-4-10 18:02
+                      </time>
+                    </div>
+                    <div class="post-meta-devide">|</div>
+                    <div class="post-meta-detail post-meta-detail-views">
+                      <i class="fa fa-eye" aria-hidden="true"></i> 3,422
+                    </div>
+                    <br />
+                    <div class="post-meta-detail post-meta-detail-words">
+                      <i class="fa-regular fa-file-word"></i><span title="785"> 3523</span>
+                    </div>
+                    <div class="post-meta-devide">|</div>
+                    <div class="post-meta-detail post-meta-detail-words">
+                      <i class="fa fa-hourglass-end" aria-hidden="true"></i>
+                      51
+                    </div>
+                  </div>
+                </header>
+
+                <div class="post-content">{{ post.content | safe }}</div>
+
+                <!-- Icon react -->
+                <div class="post-redirect-btn">
+                  <div class="post-tags">
+                    <i class="fa fa-tags" aria-hidden="true"></i>
+                    <a href="#" class="tag badge hover">Blog</a>
+                  </div>
+                  <a class="view-blog hover" href="/blog/{{ post.title | urlencode }}">View</a>
+                </div>
+              </article>
+              {% endfor %}
+
+            </div>
+          </section>
+    </section>
+
+
+
+
+    <!-- Blog-create -->
+    <section id="mobile-post" class="blog-page none">
+      <div class="create-blog-container container-v2 container">
+        <!-- Item 1 -->
+        <div class="create-blog card-border">
+          <header class="create-post-header text-center">
+            <div class="mobile-post-close none">
+              <button onclick="closePost()" type="button">Close</button>
+            </div>
+            <a class="create-post-title" href="https://goodapple.top/archives/1145">Create your own post</a>
+          </header>
+          <div class="create-title">
+
+            <label for="title">Title</label>
+
+            <input class="title-blog" type="text" id="blog-title" style="display: block;
+              padding: 5px 10px 5px 5px;
+              margin-bottom: 10px;
+              width: 284px;
+              height: 37px;
+              line-height: 1.3;">
+          </div>
+          <span class="content"
+            style="color: #39ac91;font-size: 25px;display: inline-block;margin-bottom:20px">Content</span>
+          <textarea class="create-content">
+
+            </textarea>
+
+          <!-- Icon react -->
+          <div class="post-redirect-btn">
+            <div class="post-tags">
+              <a href="#" class="tag add-tag-badge hover">Add tag <i class="fa fa-tags" aria-hidden="true"></i></a>
+
+
+              <a href="#" id="createButton" class="tag badge hover">Create</a>
+
+            </div>
+            <a class="view-blog hover" href="#">View</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- Profile -->
+    <section class="section-profile blog-noti">
+      <aside id="mobile-search" class="blog-user-info">
+        <div class="right-side1">
+          <div class="rs-desc-pro">
+            <div class="mobile-search-close none">
+              <button onclick="closeSearch()" type="button">Close</button>
+            </div>
+            <div class="rs-banner">
+              <span>OpenU Blog</span>
+            </div>
+            <span class="rs1-desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              Commodi excepturi accusanti</span>
+          </div>
+          <div class="rs-search">
+            <label for="search-val"><i class="menu-item-icon fa fa-search mr-0"></i></label>
+            <input class="input-search" onclick="focusInput()" type="text" id="search-val" name="search-val"
+              placeholder="Search title" data-search /><br />
+          </div>
+        </div>
+        <div class="right-side-2">
+          <div class="rs2-container">
+            <div>
+              <div class="rs2-nav">
+                <p class="nav-underline">Info</p>
+                <p>Desc</p>
+                </ul>
+              </div>
+              <div class="rs2-profile">
+                <div class="rs2-pro-img"></div>
+                {% if profile_pic %}
+                <style>
+                  .rs2-pro-img {
+                    background-image: url("{{ url_for('static', filename='img/avatar.png') }}");
+                  }
+                </style>
+                {% endif %}
+
+                <div class="rs2-pro-name">{{user_info[0]}}</div>
+                <!-- List info -->
+                <div class="rs2-info-list">
+                  <p class="rs2-pro-role">Role
+                    Admin</p>
+                  <p class="rs2-pr-age">Age
+                    20</p>
+                  <p class="rs2-pr-job">Job
+                    Stu</p>
+                </div>
+              </div>
+            </div>
+          </div>
+      </aside>
+      <!-- Notification -->
+      <aside id="mobile-noti" class="notification none">
+        <div class="noti-container">
+          <div class="noti-header">
+            <div class="noti-banner">
+              <div class="mobile-post-close none">
+                <button onclick="closeNotification()" type="button">Close</button>
+              </div>
+              <span>Notification</span>
+            </div>
+            <span class="noti-desc">Let's check out what's new</span>
+          </div>
+          <div class="noti-items">
+            <div class="noti-item placeholder">
+              <div class="wrapper">
+                <span class="noti-content">
+                  You don't have notification<br>
+                </span>
+              </div>
+            </div>
+            {% set loop_count = namespace(value=0) %}
+            {% for i in data %}
+            {% if i['rid'] %}
+            <div class="noti-item noti-item-{{ loop.index }} {{i['rid'][0][0]}} {{i['fromid']}}">
+              {% else %}
+              <div class="noti-item-{{ loop.index }} noti-item">
+                {% endif %}
+
+                <div class="noti-ava"></div>
+                <div class="wrapper">
+                  {% if i['ischat'] != 1 %}
+                  <h3 class="noti-title"> New invite from {{i['fromname'][0]}}</h3>
+                  {% if i['content']!=none %}
+                  <div class="noti-content"> Content: {{i['content']}}
+                    <br>
+                    <span>
+                      Time: {{i['time']}}
+                    </span>
+                  </div>
+                  {% if i['sender_pic'] %}
+                  <style>
+                    .noti-ava {
+                      background-image: url("../static{{ url_for('static', filename='../users_uploads/' + i['sender_pic']) }}");
+                    }
+                  </style>
+                  <div class="action">
+                    <button class="accept-button">Accept <a id="{{i['fromid']}}"></a></button>
+                    <button class="decline-button">Decline <a id="{{i['fromid']}}"></a></button>
+                  </div>
+                  {% endif %}
+                  {% endif %}
+
+                  {% else %}
+
+                  <h3 class="noti-title"> New Message</h3>
+                  {% if i['content']!=none %}
+                  <div class="noti-content"> You have new message from {{i['fromname'][0]}}
+                    <br>
+                    <span>
+                      Time: {{i['time']}}
+                    </span>
+                  </div>
+                  {% if i['sender_pic'] %}
+                  <style>
+                    .noti-ava {
+                      background-image: url("../static{{ url_for('static', filename='../users_uploads/' + i['sender_pic']) }}");
+                    }
+                  </style>
+                  {% endif %}
+                  {% endif %}
+
+
+
+                  {% endif %}
+                </div>
+              </div>
+              <hr>
+              {% set loop_count.value = loop_count.value + 1 %}
+              {% endfor %}
+              <script>
+                var countnotifications = {{ loop_count.value }};
+              </script>
+
+              <!-- check data-->
+              {% if data != [] %}
+              <script>
+                document.querySelector('.placeholder').classList.add("none");
+              </script>
+              {% endif %}
+            </div>
+      </aside>
+    </section>
+  </main>
+  <div id="toast"></div>
+  <!-- Font Awesome Icons (You can include this from a CDN) -->
+  <script src="https://kit.fontawesome.com/c9f23d41c7.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/js/all.min.js"></script>
+  <script src="./../static/js/index.js"></script>
+  <script src="../static/js/responsive-mobile.js"></script>
+  <script>
+    function createonclick() {
+      var acceptElements = document.querySelectorAll('[class^="accept-button"]');
+      acceptElements.forEach(function (element) {
+        element.classList.add('accept-button')
+        element.addEventListener('click', function () {
+          const requestOptions = {
+            method: 'POST', // Phương thức của request
+            headers: { 'Content-Type': 'application/json' }, // Định dạng của dữ liệu gửi đi
+            body: JSON.stringify({ data: element.querySelector('a').id }) // Dữ liệu gửi đi, được chuyển đổi sang chuỗi JSON
+          };
+          var ID = element.querySelector('a').id
+          // Gửi request sử dụng fetch
+          fetch('/accept', requestOptions)
+            .then(response => {
+              if (!response.ok) {
+                showErrorToast('Network response was not ok')
+                throw new Error('Network response was not ok');
+
+              }
+              return response.json();
+            })
+            .then((response) => {
+              if (response.success) {
+                showSuccessToast(response.success);
+
+                var deletednotilist = document.querySelectorAll('[class^="accept-button"]');
+                deletednotilist.forEach(function (ele) {
+                  if (ele.querySelector('a').id == element.querySelector('a').id) {
+                    ele.parentNode.previousElementSibling.classList.add('none')
+                    ele.parentNode.classList.add('none')
+                    ele.parentNode.nextElementSibling.classList.add('none')
+                  }
+                });
+                element.parentNode.previousElementSibling.classList.add('none')
+                element.parentNode.classList.add('none')
+                element.parentNode.nextElementSibling.classList.add('none')
+                socket2.emit('gen_user', {
+                  room_id: response.chatroom,
+                  to_id: ID
+                })
+                // down count noti
+                var noti_span = document.querySelector('.noti-badge')
+                var count = parseInt(noti_span.innerHTML)
+                count -= 1
+                noti_span.innerHTML = count
+
+                //check 
+                var checkvar = document.querySelectorAll('[class^="accept-button"]');
+                if (checkvar.length = 1) {
+                  document.querySelector('.placeholder').classList.remove("none");
+                }
+              } else {
+                showErrorToast(response.error);
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error.error);
+              showErrorToast(error.error)
+            });
+        });
+
+
+
+      });
+    }
+    var listlist = document.querySelectorAll('[class^="noti-item noti-item-"]');
+    listlist.forEach(function (element) {
+      element.addEventListener('click', function () {
+        if (element.classList.length > 2) {
+          const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 'fromid': element.classList[3], 'toid': "{{myid}}" })
+          }
+          fetch('/deletenoti', requestOptions)
+          location.href = "/chat?rid=" + element.classList[2];
+        }
+
+      })
+    })
+    createonclick()
+    function declineclick() {
+      var btndec = document.querySelectorAll('.decline-button');
+      btndec.forEach(function (element) {
+        element.addEventListener('click', function () {
+          element.parentNode.parentNode.parentNode.classList.add('none');
+          const requestOptions = {
+            method: 'POST', // Phương thức của request
+            headers: { 'Content-Type': 'application/json' }, // Định dạng của dữ liệu gửi đi
+            body: JSON.stringify({ 'fromid': element.previousElementSibling.querySelector('a').id, 'toid': '{{myid}}' })
+          } // Dữ liệu gửi đi, được chuyển đổi sang chuỗi JSON
+          fetch('/deletenoti', requestOptions).then(response => {
+            // down count noti
+            var noti_span = document.querySelector('.noti-badge')
+            var count = parseInt(noti_span.innerHTML)
+            count -= 1
+            noti_span.innerHTML = count
+
+            //check 
+            var checkvar = document.querySelectorAll('[class^="accept-button"]');
+            if (checkvar.length = 1) {
+              document.querySelector('.placeholder').classList.remove("none");
+            }
+
+          }).catch((error) => {
+            console.error("Error:", error.error);
+            showErrorToast(error.error)
+          });
+        });
+      })
+    }
+    declineclick()
+
+    function render_noti(msg, chat = 0, th = 0) {
+      var notiItem = document.createElement("div");
+      notiItem.classList.add("noti-item");
+      if (th != 0) {
+        th += 1
+        notiItem.classList.add("noti-item-" + th)
+      }
+
+      // Tạo phần tử div chứa hình ảnh đại diện (nếu cần)
+      var notiAva = document.createElement("div");
+      notiAva.classList.add("noti-ava");
+      notiItem.appendChild(notiAva); // Thêm phần tử notiAva vào trong notiItem
+
+      // Tạo phần tử div chứa tiêu đề và nội dung thông báo
+      var wrapperDiv = document.createElement("div");
+      wrapperDiv.classList.add("wrapper");
+      notiItem.appendChild(wrapperDiv); // Thêm phần tử wrapperDiv vào trong notiItem
+
+      // Tạo phần tử h3 chứa tiêu đề thông báo
+      var titleH3 = document.createElement("h3");
+      titleH3.classList.add("noti-title");
+      titleH3.textContent = "New Invite";
+      if (chat == 1) {
+        titleH3.textContent = "New Message";
+      }
+      wrapperDiv.appendChild(titleH3); // Thêm phần tử titleH3 vào trong wrapperDiv
+
+      // Tạo phần tử div chứa nội dung thông báo
+      var notiContent = document.createElement("div");
+      notiContent.classList.add("noti-content");
+      if (chat == 1) {
+        notiContent.textContent = "You have new message from " + msg.fromname
+      } else {
+        notiContent.textContent = msg.content
+      }
+
+      wrapperDiv.appendChild(notiContent); // Thêm phần tử notiContent vào trong wrapperDiv
+
+      // Thêm phần tử notiItem vào trong DOM (ví dụ, bạn có thể thêm vào một phần tử cha nào đó)
+      document.querySelector('.noti-items').appendChild(notiItem); // Thêm notiItem vào cuối phần tử body trong DOM
+
+
+      if (chat != 1) {
+        // Tạo phần tử div với class là "action"
+        var actionDiv = document.createElement("div");
+        actionDiv.className = "action";
+
+        // Tạo nút chấp nhận
+        var acceptButton = document.createElement("button");
+        acceptButton.className = "accept-button-";
+        acceptButton.textContent = "Accept";
+
+        // Tạo phần tử a
+        var anchorElement = document.createElement("a");
+        anchorElement.id = msg.from;
+
+        // Thêm phần tử a vào nút chấp nhận
+        acceptButton.appendChild(anchorElement);
+
+        // Tạo nút từ chối
+        var declineButton = document.createElement("button");
+        declineButton.className = "decline-button";
+        declineButton.textContent = "Decline";
+
+        // Thêm nút chấp nhận và nút từ chối vào phần tử div
+        actionDiv.appendChild(acceptButton);
+        actionDiv.appendChild(declineButton);
+        document.querySelector('.noti-items').appendChild(actionDiv)
+
+        declineButton.addEventListener('click', function () {
+          declineButton.parentNode.classList.add('none');
+          declineButton.parentNode.previousElementSibling.classList.add('none')
+          const requestOptions = {
+            method: 'POST', // Phương thức của request
+            headers: { 'Content-Type': 'application/json' }, // Định dạng của dữ liệu gửi đi
+            body: JSON.stringify({ 'fromid': declineButton.previousElementSibling.querySelector('a').id, 'toid': '{{myid}}' })
+          } // Dữ liệu gửi đi, được chuyển đổi sang chuỗi JSON
+          fetch('/deletenoti', requestOptions).then(response => {
+            // down count noti
+            var noti_span = document.querySelector('.noti-badge')
+            var count = parseInt(noti_span.innerHTML)
+            count -= 1
+            noti_span.innerHTML = count
+
+            //check 
+            var checkvar = document.querySelectorAll('[class^="accept-button"]');
+            if (checkvar.length = 1) {
+              document.querySelector('.placeholder').classList.remove("none");
+            }
+
+          }).catch((error) => {
+            //console.error("Error:", error.error);
+            showErrorToast(error.error)
+          });
+        });
+      }
+      else {
+        wrapperDiv.classList.add(msg.fromid)
+        notiItem.addEventListener('click', function () {
+          const requestOptions = {
+            method: 'POST', // Phương thức của request
+            headers: { 'Content-Type': 'application/json' }, // Định dạng của dữ liệu gửi đi
+            body: JSON.stringify({ 'fromid': notiItem.querySelector('.wrapper ').classList[1], 'toid': '{{myid}}' })
+          } // Dữ liệu gửi đi, được chuyển đổi sang chuỗi JSON
+          fetch('/deletenoti', requestOptions)
+          location.href = "/chat?rid=" + msg.rid;
+        })
+
+      }
+
+
+
+      var hr = document.createElement("hr");
+
+      document.querySelector('.noti-items').appendChild(hr); // Thêm notiItem vào cuối phần tử body trong DOM
+      document.querySelector('.placeholder').classList.add("none");
+      createonclick()
+
+    }
+
+    //<!-- SOCKET CODE-->
+
+    var socket = io.connect('http://' + document.domain + ':' + location.port)
+
+    var socket2 = io.connect('http://localhost:7777')
+    socket2.on('connect', function () {
+      console.log("heheheheh")
+    })
+    socket2.on('invited', function (msg = "11") {
+      if ("{{myid}}" == msg.to) {
+        //arr.append()
+
+        //console.log(arr)
+        showSuccessToast("You have new invite from" + msg.from);
+        render_noti(msg)
+        var noti_span = document.querySelector('.noti-badge')
+        var count = parseInt(noti_span.innerHTML)
+        count += 1
+        noti_span.innerHTML = count
+      }
+    })
+
+    socket2.on('receive-notichat', function (msg) {
+      if ("{{myid}}" == msg.toid) {
+        showSuccessToast("You have new message from " + msg.fromname);
+        var noti_span = document.querySelector('.nav_noti span')
+        var count = parseInt(noti_span.innerHTML)
+        count += 1
+        noti_span.innerHTML = count
+        render_noti(msg, 1, countnotifications)
+
+        var noti_chat = document.querySelector('.noti-chat-badge');
+        var count_chat_noti = parseInt(noti_chat.innerHTML)
+        count_chat_noti += 1
+        noti_chat.innerHTML = count_chat_noti
+
+        var chat_count = document.querySelector('.noti-chat-badge').innerHTML;
+        chat_count = parseInt(chat_count)
+        chat_count += 1;
+        document.querySelector('.noti-chat-badge').innerHTML = chat_count;
+
+      }
+    })
+
+
+
+
+
+  </script>
+
+
+  <!-- Search function -->
+  <script>
+    var list_blog = [
+      {% for item in blog_info %}
+    {
+      "title": { { item[0] | tojson } },
+      "content": { { item[1] | tojson } }
+    } {% if not loop.last %}, {% endif %}
+    {% endfor %}
+     ];
+    //list_blog.forEach(blog =>{ alert(blog['title'])})
+
+  </script>
+
+
+  <script>
+    const articleElement = document.createElement("article");
+    articleElement.classList.add("post", "card-border");
+    articleElement.id = "post-1";
+
+    const headerElement = document.createElement("header");
+    headerElement.classList.add("post-header", "text-center");
+
+    const titleLinkElement = document.createElement("a");
+    titleLinkElement.classList.add("post-title");
+    titleLinkElement.textContent = "tesssssssssssssssssssssttttt";
+
+    const postMetaElement = document.createElement("div");
+    postMetaElement.classList.add("post-meta");
+
+    headerElement.appendChild(titleLinkElement);
+    headerElement.appendChild(postMetaElement);
+    articleElement.appendChild(headerElement);
+
+    document.querySelector(".post-items").appendChild(articleElement);
+    articleElement.classList.add('hide')
+    // Search logic
+    var searchInput = document.querySelector("[data-search]")
+    searchInput.addEventListener("input", e => {
+      var isVisible = false
+      const value = e.target.value.toLowerCase()
+      list_blog.forEach(blog => {
+        isVisible =
+          blog.title.toLowerCase().includes(value)
+        title = blog.title
+        const link = document.querySelector(`[href="/blog/${title}"]`);
+        const parentNode = link.parentNode.parentNode;
+        parentNode.classList.toggle("none", !isVisible)
+      })
+    })
+
+  </script>
+  <script>
+    function toggleNotifications() {
+      const notifications = document.querySelector(".notifications");
+      notifications.style.display =
+        notifications.style.display === "block" ? "none" : "block";
+    }
+  </script>
+  <script>
+    var navbar = document.getElementById('mobile-navbar');
+    var moblieMenu = document.getElementById('mobile-menu');
+    moblieMenu.onclick = function () {
+      var isClosed = navbar.style.overflow === 'hidden';
+      if (isClosed) {
+        navbar.style.overflow = 'initial';
+      } else {
+        navbar.style.overflow = 'hidden';
+      }
+    }
+  </script>
+  <script>
+    function closePost() {
+      var post = document.getElementById('mobile-post');
+      var isOpened = post.style.display !== 'none';
+      if (isOpened) {
+        post.style.display = 'none';
+      }
+    }
+  </script>
+  <script>
+    function closeNotification() {
+      var noti = document.getElementById('mobile-noti');
+      var isOpened = noti.style.display !== 'none';
+      if (isOpened) {
+        noti.style.display = 'none';
+      }
+    }
+  </script>
+  <script>
+    function closeSearch() {
+      var search = document.getElementById('mobile-search');
+      var computedStyle = window.getComputedStyle(search);
+      var zIndex = parseInt(computedStyle.getPropertyValue('z-index'));
+      if (zIndex === 10) {
+        search.style.zIndex = '-10'; // Đóng cửa sổ tìm kiếm
+      }
+    }
+  </script>
+  <script src="../static/responsive/tablet.js"></script>
+</body>
+
+</html>
