@@ -90,9 +90,9 @@ app.config['SECRET_KEY'] = 'secret-hhhh'
 app.config['UPLOAD_FOLDER'] = 'static/users_uploads'
 # basedir = os.path.abspath(os.path.dirname(__file__))
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'openu.db')
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vanphuc:123456#a@flask-mysql-server.mysql.database.azure.com:3306/flask_mysql'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://vanphuc:123456#a@flask-mysql-server.mysql.database.azure.com:3306/flask_database'
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456%40a@localhost/flask_mysql'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456%40a@localhost/flask_database'  
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:123456%40a@localhost/flask_database'  
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Khởi tạo các thành phần
