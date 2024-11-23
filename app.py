@@ -14,6 +14,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from sqlalchemy.exc import SQLAlchemyError
+from flask_migrate import Migrate
 
 # Khởi tạo các đối tượng cần thiết
 db = SQLAlchemy()
@@ -100,6 +101,7 @@ db.init_app(app)
 socket.init_app(app, cors_allowed_origins="*")
 cors.init_app(app)
 bcrypt.init_app(app)
+migrate = Migrate(app, db)
 
 # Thêm thông báo mới vào bảng notification
 @socket.on("add_stack_noti")
